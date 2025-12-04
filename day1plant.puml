@@ -1,31 +1,59 @@
-class Animal{
-    -id: interface
-    -name: String
-    -classification: String
-    #age: int
-    +Animal(id: int, name: String, classification: String)
-    +Animal(id: int, name: String, age:int, classification: String)
-    +checkID(id: int)
-    +toString()
-    +{abstract} canMoveTo(noLocation: String): boolean
-    +{abstract} getHumanAge(): int
-    +{abstract} makeNoise(): String
+' class Animal{
+'     -id: interface
+'     -name: String
+'     -classification: String
+'     #age: int
+'     +Animal(id: int, name: String, classification: String)
+'     +Animal(id: int, name: String, age:int, classification: String)
+'     +checkID(id: int)
+'     +toString()
+'     +{abstract} canMoveTo(noLocation: String): boolean
+'     +{abstract} getHumanAge(): int
+'     +{abstract} makeNoise(): String
+' }
+
+' +class Dog{
+'     +getHumanAge(): int
+'     +canMoveTo(noLocation: String): boolean
+'     +makeNoise(): String
+' }
+
+
+' +class Cat{
+'     +isOrange: boolean
+'     +isOrange(): boolean
+'     +getHumanAge(): int
+'     +canMoveTo(noLocation: String): boolean
+'     +makeNoise(): String
+' }
+
+' Dog -u-|> Animal
+' Cat -u-|> Animal
+
+class IOHandler{
+    DisplayStartupMessage() : void
+    RecieveUserInput() : void
+    CreateOrder(email: String, sweetheartName: String, song: String, creditNum: String): boolean
+    EmailReport(member : MucicClubMember): boolean
 }
 
-+class Dog{
-    +getHumanAge(): int
-    +canMoveTo(noLocation: String): boolean
-    +makeNoise(): String
+class MusicClubMember{
+    -song: String
+    -isSinging: boolean
+    -isDone: boolean
+    -Name: String
+    startSinging() : void
+    finishSinging() : void
 }
 
-
-+class Cat{
-    +isOrange: boolean
-    +isOrange(): boolean
-    +getHumanAge(): int
-    +canMoveTo(noLocation: String): boolean
-    +makeNoise(): String
+class Order{
+    -email: String
+    -sweetheartName: String
+    -song: String
+    -creditNum: String
+    +ChargeCustomer() : void
+    +EmailCustomer() : void
 }
 
-Dog -u-|> Animal
-Cat -u-|> Animal
+Order -u-|> IOHandler
+MusicClubMember -u-|> IOHandler

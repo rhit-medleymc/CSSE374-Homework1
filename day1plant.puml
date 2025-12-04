@@ -1,0 +1,31 @@
+class Animal{
+    -id: interface
+    -name: String
+    -classification: String
+    #age: int
+    +Animal(id: int, name: String, classification: String)
+    +Animal(id: int, name: String, age:int, classification: String)
+    +checkID(id: int)
+    +toString()
+    +{abstract} canMoveTo(noLocation: String): boolean
+    +{abstract} getHumanAge(): int
+    +{abstract} makeNoise(): String
+}
+
++class Dog{
+    +getHumanAge(): int
+    +canMoveTo(noLocation: String): boolean
+    +makeNoise(): String
+}
+
+
++class Cat{
+    +isOrange: boolean
+    +isOrange(): boolean
+    +getHumanAge(): int
+    +canMoveTo(noLocation: String): boolean
+    +makeNoise(): String
+}
+
+Dog -u-|> Animal
+Cat -u-|> Animal

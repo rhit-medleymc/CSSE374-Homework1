@@ -31,19 +31,21 @@
 ' Cat -u-|> Animal
 
 class IOHandler{
-    DisplayStartupMessage() : void
-    RecieveUserInput() : void
+    DisplayStartupMessage(): void
+    RecieveUserInput(): void
     CreateOrder(email: String, sweetheartName: String, song: String, creditNum: String): boolean
     EmailReport(member : MucicClubMember): boolean
+    PrintAllData(): void
 }
 
 class MusicClubMember{
+    -ID: int
     -song: String
     -isSinging: boolean
     -isDone: boolean
     -Name: String
-    startSinging() : void
-    finishSinging() : void
+    startSinging(): void
+    finishSinging(): void
 }
 
 class Order{
@@ -51,9 +53,9 @@ class Order{
     -sweetheartName: String
     -song: String
     -creditNum: String
-    +ChargeCustomer() : void
-    +EmailCustomer() : void
+    +ChargeCustomer(): void
+    +EmailCustomer(): void
 }
 
-Order -u-|> IOHandler
-MusicClubMember -u-|> IOHandler
+IOHandler -d->"*" MusicClubMember
+IOHandler -d->"*" Order

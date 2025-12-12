@@ -11,7 +11,7 @@ class IOHandler {
     this.members = members;
   }
 
-  public void DisplayStartupMessage() {
+  public void startUI(Scanner scanner) {
     System.out.println("Welcome to the Serenaders' Music Club Valentine's Song System!\r\n" + //
                        "Select the action to do:\r\n" + //
                        "1 - Customers - Order a song for Valentine's Day\r\n" + //
@@ -20,9 +20,40 @@ class IOHandler {
                        "4 - Admin - Show data for all club members\r\n" + //
                        "Enter 1, 2, 3 or 4: \r\n" + //
                        "");
+    recieveUserInput(scanner);
   }
   
-  private void orderSong(Scanner scanner){
+  public void recieveUserInput(Scanner scanner) {
+    String startChoice = scanner.nextLine();
+    try {
+      switch(startChoice) {
+        case "1": //order a song
+          createOrder(scanner);
+          break;
+        
+        case "2": //Get a report of requests
+          emailReport(scanner);
+          break;
+        
+        case "3": //Report back that songs are done
+          finishSinging(scanner);
+          break;
+        
+        case "4": //Show data for all club members
+          displayAdminData();
+          break;
+
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+    catch (Exception e) {
+      System.err.print("Error, Invalid input. Please input an Integer from 1-4");
+    }
+    startUI(scanner); //Restart
+  }
+
+  private void createOrder(Scanner scanner){
     System.out.println("Order a song for Valentine’s Day...\r\n" + //
                         "Select the song from this list:\r\n" + //
                         "1 - \"Can't Help Falling in Love\" by Elvis Presley\r\n" + //
@@ -46,6 +77,10 @@ class IOHandler {
       default -> throw new IllegalArgumentException();
     };
 
+    if(getMusicianBySong(songChoice).getIsSinging()){
+      System.out.println("Musician is already singing and song cannot be added.");
+    }
+
     System.out.print("Enter your email address: ");
     String userEmail = scanner.nextLine();
 
@@ -61,7 +96,7 @@ class IOHandler {
     System.out.println("Done!");  
   }
   
-  private void EmailReport(Scanner scanner){
+  private void emailReport(Scanner scanner){
     String introMessage = "Get a report of requests for your song...\r\n" + //
                           "Enter your member ID number: \r\n";
     System.out.print(introMessage);
@@ -72,7 +107,7 @@ class IOHandler {
     }catch(Exception E){
       System.err.println(E);
       System.err.println("Please enter a correct ID");
-      EmailReport(scanner);
+      emailReport(scanner);
     }
 
     String output = "";
@@ -80,11 +115,21 @@ class IOHandler {
       String song = o.getSong();
       MusicClubMember musician = getMusicianBySong(song);
       if(musician.getID() == ID){
+        musician.StartSinging();
         output = output + "\n" + o.getSweetheart();
       }
     }
 
     System.out.println(output);
+  }
+
+  private void displayAdminData() {
+    for(MusicClubMember m: members){
+      System.out.println(m);
+    }
+    for(Order o: orders){
+      System.out.println(o);
+    }
   }
   
   private MusicClubMember getMusicianBySong(String song) {
@@ -96,66 +141,30 @@ class IOHandler {
     return null;
   }
   
-  public void RecieveUserInput(Scanner scanner) {
-    String startChoice = scanner.nextLine();
-    try {
-      switch(startChoice) {
-        case "1": //order a song
-          orderSong(scanner);
-          break;
-        
-        case "2": //Get a report of requests
-          EmailReport(scanner);
-          break;
-        
-        case "3": //Report back that songs are done
-          chargeCustomers(scanner);
-          break;
-        
-        case "4": //Show data for all club members
-          DisplayAdminData();
-          break;
-
-        default:
-          throw new IllegalArgumentException();
-      }
-    }
-    catch (Exception e) {
-      System.err.print("Error, Invalid input. Please input an Integer from 1-4");
-    }
-    DisplayStartupMessage(); //Restart
-    RecieveUserInput(scanner);
-  }
-
-  private void DisplayAdminData() {
-    for(MusicClubMember m: members){
-      System.out.println(m);
-    }
-    for(Order o: orders){
-      System.out.println(o);
-    }
-  }
-
-  private void chargeCustomers(Scanner scanner) {
+  private void finishSinging(Scanner scanner) {
     System.out.println("Report back that your songs are done...\r\n" + //
             "Enter your member ID number: \r\n");
     
     int ID = Integer.parseInt(scanner.nextLine());
+    MusicClubMember member = getMusicianByID(ID);
+    member.FinishSinging();
+    String song = member.getSong();
+
     for(Order o: orders){
-      String song = getSongByMusicianID(ID);
       if(o.getSong().equals(song)){
         o.ChargeCustomer();
       }
     }
+
   }
 
-  private String getSongByMusicianID(int ID) {
+  private MusicClubMember getMusicianByID(int ID) {
     for(MusicClubMember m: members){
       if(m.getID() == ID){
-        return m.getSong();
+        return m;
       }
     }
-    return "huhh??";
+    return null;
   }
 
 }
@@ -174,6 +183,10 @@ class MusicClubMember {
     this.song = song;
     this.isSinging = false;
     this.isDone = false;
+  }
+
+  public boolean getIsSinging() {
+    return this.isSinging;
   }
 
   public int getID() {
@@ -222,7 +235,7 @@ class Order {
   }
 
   public void ChargeCustomer() {
-    System.out.println("Charging " + this.email + "at card number" + this.creditNum);
+    System.out.println("Charging " + this.email + "at card number " + this.creditNum);
   }
 
   @Override
@@ -243,8 +256,7 @@ public class Main {
     }
     IOHandler handler = new IOHandler(members);
     Scanner scanner = new Scanner(System.in);
-    handler.DisplayStartupMessage();
-    handler.RecieveUserInput(scanner);
+    handler.startUI(scanner);
     scanner.close();
   }
 }

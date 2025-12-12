@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Noah Did this class
+// Noah did this class
 class IOHandler {
   private ArrayList<Order> orders;
   private ArrayList<MusicClubMember> members;
-
+// Noah did this class
   public IOHandler(ArrayList<MusicClubMember> members) {
     orders = new ArrayList<Order>();
     this.members = members;
   }
-
+// Noah did this class
   public void startUI(Scanner scanner) {
     System.out.println("Welcome to the Serenaders' Music Club Valentine's Song System!\r\n" + //
                        "Select the action to do:\r\n" + //
@@ -22,7 +22,7 @@ class IOHandler {
                        "");
     recieveUserInput(scanner);
   }
-  
+// Noah did this class
   public void recieveUserInput(Scanner scanner) {
     String startChoice = scanner.nextLine();
     try {
@@ -52,7 +52,7 @@ class IOHandler {
     }
     startUI(scanner); //Restart
   }
-
+// Noah did this class
   private void createOrder(Scanner scanner){
     System.out.println("Order a song for Valentine’s Day...\r\n" + //
                         "Select the song from this list:\r\n" + //
@@ -95,7 +95,7 @@ class IOHandler {
 
     System.out.println("Done!");  
   }
-  
+  //Florence did this in class
   private void emailReport(Scanner scanner){
     String introMessage = "Get a report of requests for your song...\r\n" + //
                           "Enter your member ID number: \r\n";
@@ -122,7 +122,7 @@ class IOHandler {
 
     System.out.println(output);
   }
-
+  //Florence did this in class
   private void displayAdminData() {
     for(MusicClubMember m: members){
       System.out.println(m);
@@ -131,7 +131,7 @@ class IOHandler {
       System.out.println(o);
     }
   }
-  
+  //Florence did this in class
   private MusicClubMember getMusicianBySong(String song) {
     for(MusicClubMember m: members){
       if(m.getSong().equals(song)){
@@ -140,7 +140,7 @@ class IOHandler {
     }
     return null;
   }
-  
+  //Florence did this in class
   private void finishSinging(Scanner scanner) {
     System.out.println("Report back that your songs are done...\r\n" + //
             "Enter your member ID number: \r\n");
@@ -157,7 +157,7 @@ class IOHandler {
     }
 
   }
-
+  //Florence did this in class
   private MusicClubMember getMusicianByID(int ID) {
     for(MusicClubMember m: members){
       if(m.getID() == ID){
@@ -176,7 +176,7 @@ class MusicClubMember {
   private String song;
   private Boolean isSinging;
   private Boolean isDone;
-
+  //Florence did this in class
   public MusicClubMember(Integer ID, String song, String name) {
     this.ID = ID;
     this.name = name;
@@ -184,28 +184,28 @@ class MusicClubMember {
     this.isSinging = false;
     this.isDone = false;
   }
-
+// Noah did this class
   public boolean getIsSinging() {
     return this.isSinging;
   }
-
+// Noah did this class
   public int getID() {
     return this.ID;
   }
-
+// Noah did this class
   public String getSong() {
     return this.song;
   }
-
+  //Florence did this in class
   public void StartSinging() {
     this.isSinging = true;
   }
-
+  //Florence did this in class
   public void FinishSinging() {
     this.isSinging = false;
     this.isDone = true;
   }
-  
+  //Florence did this in class
   @Override
   public String toString(){
     return "Member:\t\tID: " + ID + "\tname: " + name + "\tSong: " + song + "\tisSinging: " + isSinging + "\tisDone: " + isDone;
@@ -218,26 +218,26 @@ class Order {
   private String sweetheartName;
   private String song;
   private String creditNum;
-
+  //Florence did this in class
   public Order(String email, String sweetheartName, String song, String creditNum) {
     this.email = email;
     this.sweetheartName = sweetheartName;
     this.song = song;
     this.creditNum = creditNum;
   }
-
+  //Florence did this in class
   public String getSweetheart() {
     return this.sweetheartName;
   }
-
+  //Florence did this in class
   public String getSong() {
     return song;
   }
-
+  //Florence did this in class
   public void ChargeCustomer() {
     System.out.println("Charging " + this.email + "at card number " + this.creditNum);
   }
-
+  //Florence did this in class
   @Override
   public String toString(){
     return "Order:\t\tEmail: " + email + "\tSong: " + song + "\tSweetheart Name: " + sweetheartName + "\tCredit Card Number: " + creditNum;

@@ -1,6 +1,6 @@
-classlass IOHandler{
-    +displayStartupMessage(): void
-    +recieveUserInput(scanner: Scanner): void
+class IOHandler{
+    +startUI(): void
+    -recieveUserInput(scanner: Scanner): void
     -createOrder(scanner: Scanner): boolean
     -emailReport(scanner: Scanner): boolean
     -displayAdminData(): void
@@ -25,10 +25,9 @@ class Order{
     -song: String
     -creditNum: String
     +ChargeCustomer(): void
-    +EmailCustomer(): void
 }
 
 IOHandler -d->"*" MusicClubMember
 IOHandler -d->"*" Order
 
-note top of IOHandler: While initially we planned to pass the input of the scanner into each functionality\nindividually we decided instead to pass the scanner so that each function can ask its own questions and recieve its\nown inputs
+note top of IOHandler: While initially we planned to pass the input of the scanner into each function\nwe decided instead to pass in the scanner so that each function can ask its own\nquestions and recieve its own inputs
